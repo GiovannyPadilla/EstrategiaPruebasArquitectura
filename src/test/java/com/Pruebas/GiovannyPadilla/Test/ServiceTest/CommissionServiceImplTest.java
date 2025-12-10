@@ -1,6 +1,6 @@
-package com.Pruebas.GiovannyPadilla.ServiceTest;
+package com.Pruebas.GiovannyPadilla.Test.ServiceTest;
 
-import com.Pruebas.GiovannyPadilla.Service.CommissionServiceImpl;
+import com.Pruebas.GiovannyPadilla.Test.Service.CommissionServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;

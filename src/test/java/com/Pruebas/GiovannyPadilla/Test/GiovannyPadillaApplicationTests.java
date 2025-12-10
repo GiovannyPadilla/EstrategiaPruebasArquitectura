@@ -1,4 +1,4 @@
-package com.Pruebas.GiovannyPadilla;
+package com.Pruebas.GiovannyPadilla.Test;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

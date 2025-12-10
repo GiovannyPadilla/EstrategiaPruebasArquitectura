@@ -20,30 +20,42 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.mockito'
+		exclude group: 'net.bytebuddy'
+	}
+
+	testImplementation 'com.h2database:h2'
 	testImplementation 'org.testcontainers:junit-jupiter:1.20.2'
 	testImplementation 'org.testcontainers:postgresql:1.20.2'
 	testImplementation 'com.github.tomakehurst:wiremock-jre8:2.35.0'
-	testImplementation 'au.com.dius.pact.consumer:junit5:4.6.1'
+	testImplementation "au.com.dius.pact.consumer:junit5:4.1.10"
+	testImplementation 'org.pitest:pitest-command-line:1.15.0'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	testRuntimeOnly 'org.pitest:pitest-command-line:1.15.0'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
 
-task pitest(type: JavaExec) {
+tasks.register("pitest", JavaExec) {
+	group = "verification"
+	description = "Run PIT Mutation Testing"
+
 	classpath = sourceSets.test.runtimeClasspath
 	mainClass = 'org.pitest.mutationtest.commandline.MutationCoverageReport'
+
 	args = [
-			'--reportDir=build/reports/pitest',
-			'--targetClasses=com.Pruebas.GiovannyPadilla.Service.*',
-			'--targetTests=com.Pruebas.GiovannyPadilla.ServiceTest.*',
-			'--sourceDirs=src/main/java',
-			'--mutators=STRONGER',
-			'--noHotspot'
+			"--reportDir=build/reports/pitest",
+			"--targetClasses=com.Pruebas.GiovannyPadilla.Service.*",
+			"--targetTests=com.Pruebas.GiovannyPadilla.ServiceTest.*",
+			"--sourceDirs=src/main/java",
+			"--mutators=STRONGER",
+			"--noHotspot"
 	]
 }
+
